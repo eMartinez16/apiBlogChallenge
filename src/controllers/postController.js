@@ -1,12 +1,10 @@
 const { post } = require('../../database');
 
 const getPost = async (req, res) => {
-  const query = req.query;
-  console.log(query);
   try {
     posts = await post.findAll({
       attributes: ['id', 'title', 'image', 'categoryId', 'createdAt'],
-      order: [['title', 'desc']],
+      order: [['createdAt', 'desc']],
     });
     res.json(posts);
   } catch (error) {
