@@ -1,5 +1,3 @@
-const categoryModel = require('./categoryModel');
-
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define('Post', {
     id: {
