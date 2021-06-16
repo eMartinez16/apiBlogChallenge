@@ -26,7 +26,7 @@ const getPostById = async (req, res) => {
       },
     });
     if (!posts) {
-      res.json({ message: 'post does not exists' });
+      return res.json({ message: 'post does not exists' });
     }
     res.json(posts);
   } catch (error) {
@@ -36,10 +36,19 @@ const getPostById = async (req, res) => {
 
 const createPost = async (req, res) => {
   try {
+    const verifyCategory = await category.findOne({
+      where: {
+        id: req.body.categoryId,
+      },
+    });
+    if (!verifyCategory) {
+      return res.json({ msg: 'category not found' });
+    }
+
     const newPost = await post.create(req.body);
     res.json(newPost);
   } catch (error) {
-    console.error(error);
+    res.json(error);
   }
 };
 const deletePost = async (req, res) => {
