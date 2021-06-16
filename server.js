@@ -1,20 +1,27 @@
 require('./database');
-
+const postController = require('./src/controllers/postController');
 const express = require('express');
 const app = express();
 const port = 3000;
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/api/post');
+//Get all posts
+app.get('/api/post', postController.getPost);
 
-app.get('api/post/{id}');
-app.post('/api/post)');
+//get posts by id
+app.get('api/post/:id', postController.getPostById);
 
-app.patch('api/post/{id}');
+//create new post
+app.post('/api/post, ', postController.createPost);
 
-app.delete('api/post/{id}');
+//update post
+app.patch('api/post/:id', postController.updatePost);
+
+//delete post
+app.delete('api/post/:id', postController.deletePost);
 
 app.listen(port, () => {
-  console.log(`CoNENCTEd`);
+  console.log(`Connected`);
 });
