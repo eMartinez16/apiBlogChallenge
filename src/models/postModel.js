@@ -2,7 +2,7 @@ const categoryModel = require('./categoryModel');
 
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define('Post', {
-    idPost: {
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
