@@ -1,10 +1,16 @@
-const { post } = require('../../database');
+const { post, category } = require('../../database');
 
 const getPost = async (req, res) => {
   try {
     posts = await post.findAll({
-      attributes: ['id', 'title', 'image', 'categoryId', 'createdAt'],
+      attributes: ['id', 'title', 'image', 'createdAt'],
       order: [['createdAt', 'desc']],
+      include: [
+        {
+          model: category,
+          attributes: ['name'],
+        },
+      ],
     });
     res.json(posts);
   } catch (error) {
