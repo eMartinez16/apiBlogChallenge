@@ -11,16 +11,16 @@ app.use(express.urlencoded({ extended: false }));
 app.get('/api/post', postController.getPost);
 
 //get posts by id
-app.get('api/post/:id', postController.getPostById);
+app.get('/api/post/:id', postController.getPostById);
 
 //create new post
-app.post('/api/post, ', postController.createPost);
+app.post('/api/post', postController.createPost);
 
 //update post
-app.patch('api/post/:id', postController.updatePost);
+app.patch('/api/post/:id', postController.updatePost);
 
 //delete post
-app.delete('api/post/:id', postController.deletePost);
+app.delete('/api/post/:id', postController.deletePost);
 
 app.listen(port, () => {
   console.log(`Connected`);
