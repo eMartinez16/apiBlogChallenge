@@ -34,8 +34,20 @@ const getPostById = async (req, res) => {
   }
 };
 
+const validateUrl = urlImg => {
+  if (urlImg.match(/.(jpeg|jpg|gif|png)$/) === null) {
+    console.log(urlImg.match(/.(jpeg|jpg|gif|png)$/));
+    return false;
+  }
+
+  return true;
+};
+
 const createPost = async (req, res) => {
   try {
+    if (Object.keys(req.body).length === 0) {
+      return res.json('insert data to create');
+    }
     const verifyCategory = await category.findOne({
       where: {
         id: req.body.categoryId,
@@ -43,6 +55,11 @@ const createPost = async (req, res) => {
     });
     if (!verifyCategory) {
       return res.json({ msg: 'category not found' });
+    }
+    const validateImage = validateUrl(req.body.image);
+    console.log(validateImage);
+    if (validateImage === false) {
+      return res.json('image extension incorrect');
     }
 
     const newPost = await post.create(req.body);
@@ -55,7 +72,7 @@ const deletePost = async (req, res) => {
   const id = req.params.id;
   try {
     const verifyId = await post.findOne({
-      id,
+      where: { id },
     });
     if (!verifyId) {
       return res.json({ msg: 'post not found' });
@@ -72,13 +89,17 @@ const deletePost = async (req, res) => {
 };
 
 const updatePost = async (req, res) => {
-  id = req.body.id;
   try {
     const verifyId = await post.findOne({
-      id,
+      where: { id: req.params.id },
     });
     if (!verifyId) {
       return res.json({ msg: 'post not found' });
+    }
+    const validateImage = validateUrl(req.body.image);
+    console.log(validateImage);
+    if (validateImage === false) {
+      return res.json('image extension incorrect');
     }
     if (Object.keys(req.body).length === 0) {
       return res.json('insert data to update');
