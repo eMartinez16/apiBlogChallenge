@@ -22,7 +22,16 @@ sequelize
   .authenticate()
   .then(() => {
     console.log('Connection success.');
-    sequelize.sync();
+    sequelize.sync().then(() => {
+      //loading data into categories table
+      category
+        .bulkCreate([
+          { name: 'Programming' },
+          { name: 'Music' },
+          { name: 'Videogames' },
+        ])
+        .catch(error => console.error(error));
+    });
   })
   .catch(error => console.error('Unable to connect to the database:', error));
 
