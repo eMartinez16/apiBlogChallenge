@@ -54,6 +54,12 @@ const createPost = async (req, res) => {
 const deletePost = async (req, res) => {
   const id = req.params.id;
   try {
+    const verifyId = await post.findOne({
+      id,
+    });
+    if (!verifyId) {
+      return res.json({ msg: 'post not found' });
+    }
     await post.destroy({
       where: {
         id,
@@ -66,7 +72,17 @@ const deletePost = async (req, res) => {
 };
 
 const updatePost = async (req, res) => {
+  id = req.body.id;
   try {
+    const verifyId = await post.findOne({
+      id,
+    });
+    if (!verifyId) {
+      return res.json({ msg: 'post not found' });
+    }
+    if (Object.keys(req.body).length === 0) {
+      return res.json('insert data to update');
+    }
     await post.update(req.body, {
       where: {
         id: req.params.id,
