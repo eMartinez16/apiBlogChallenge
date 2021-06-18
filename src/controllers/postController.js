@@ -96,14 +96,15 @@ const updatePost = async (req, res) => {
     if (!verifyId) {
       return res.json({ msg: 'post not found' });
     }
+    if (Object.keys(req.body).length === 0) {
+      return res.json('insert data to update');
+    }
     const validateImage = validateUrl(req.body.image);
     console.log(validateImage);
     if (validateImage === false) {
       return res.json('image extension incorrect');
     }
-    if (Object.keys(req.body).length === 0) {
-      return res.json('insert data to update');
-    }
+
     await post.update(req.body, {
       where: {
         id: req.params.id,
